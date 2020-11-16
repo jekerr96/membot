@@ -1,0 +1,24 @@
+{
+  "name": "membot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jekerr96/membot.git"
+  },
+  "author": "jekerr <jekerr96@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jekerr96/membot/issues"
+  },
+  "homepage": "https://github.com/jekerr96/membot#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "mongodb": "^3.6.3",
+    "node-vk-bot-api": "^3.3.7"
+  }
+}
