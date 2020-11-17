@@ -3,7 +3,7 @@ const VkBot = require("node-vk-bot-api");
 const User = require("./app/models/user");
 const Mem = require("./app/models/mem");
 const Audio = require("./app/models/audio");
-const {defaultKeyboard} = require("./app/keyboards");
+const {defaultKeyboard, adminKeyboard} = require("./app/keyboards");
 const Messages = require("./app/messages");
 
 (async () => {
@@ -32,9 +32,19 @@ const Messages = require("./app/messages");
         ctx.reply("Делай громче", randomAudio.getCode(), defaultKeyboard);
     });
 
+    global.vkBot.command(Messages.ADD_MEM, async (ctx) => {
+        let user = await userModel.addUserIfNotExist(ctx.message.peer_id);
+
+        if (!user.isAdmin()) {
+            ctx.reply('Что будем делать?', null, defaultKeyboard);
+        }
+
+        ctx.reply('Что будем делать?', null, adminKeyboard);
+    });
+
     global.vkBot.on(async (ctx) => {
-        await userModel.addUserIfNotExist(ctx.message.peer_id)
-        ctx.reply('Что будем делать?', null, defaultKeyboard);
+        let user = await userModel.addUserIfNotExist(ctx.message.peer_id)
+        ctx.reply('Что будем делать?', null, user.isAdmin() ? adminKeyboard : defaultKeyboard);
     });
 
     global.vkBot.startPolling(() => {
