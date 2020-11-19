@@ -1,4 +1,9 @@
 require("dotenv").config();
+
+const express = require("express");
+const app = express();
+const port = 3000;
+
 const VkBot = require("node-vk-bot-api");
 const User = require("./app/models/user");
 const Mem = require("./app/models/mem");
@@ -57,5 +62,20 @@ const Messages = require("./app/messages");
 
     global.vkBot.startPolling(() => {
         console.log('Bot started.');
+    });
+
+
+    ///////////////////
+    app.use(express.static('public'));
+
+    app.set("view engine", "pug");
+    app.disable('x-powered-by');
+
+    app.get("/", (req, res) => {
+        res.render("index", {title: "membot", message: "hello world", pageType: "main"});
+    });
+
+    app.listen(port, () => {
+        console.log(`server start on http://localhost:${port}`);
     });
 })();

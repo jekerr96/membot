@@ -1,0 +1,62 @@
+@import "../_var";
+
+@fontPath: 'fonts/';
+
+@font-face {
+    font-family: "PT Serif";
+    src: url('@{fontPath}PTSerif-Regular.woff2') format('woff2'),
+    url('@{fontPath}PTSerif-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-color: @orange @darkColor;
+    scrollbar-width: thin;
+
+    &scrollbarbutton {
+        appearance: none !important;
+    }
+
+    &::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: @orange;
+        border-radius: 5px;
+
+        &:hover {
+            opacity: .8;
+        }
+    }
+
+    &::-webkit-scrollbar-track {
+        background-color: @darkColor;
+        width: 1px;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: @whiteColor;
+}
+
+body {
+    background: @darkColor;
+    color: @whiteColor;
+    font: 400 16px "PT Serif", sans-serif;
+}
+
+main {
+    padding-bottom: 50px;
+}
+
+.container {
+    max-width: 1440px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    margin: 0 auto;
+}

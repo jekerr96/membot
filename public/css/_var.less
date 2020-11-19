@@ -1,0 +1,59 @@
+@imagePath: "/images/";
+@transitTime: .2s;
+
+@darkColor: #1a212e;
+@whiteColor: #fff;
+@light: #e5ded1;
+@orange: #ffb74d;
+@green: #0ed60e;
+@red: #ca2424;
+@darkHex: #11151e;
+@mainColor: fade(darken(@darkColor, 10%), 50%);
+
+@screen-xxl: 1440px;
+@screen-xl: 1240px;
+@screen-md: 1024px;
+@screen-sm: 768px;
+@screen-xs: 480px;
+
+@screen-xs-max: @screen-xs - 1;
+@screen-sm-max: @screen-sm - 1;
+@screen-md-max: @screen-md - 1;
+@screen-xl-max: @screen-xl - 1;
+@screen-xxl-max: @screen-xxl - 1;
+
+@media-xs: ~'(max-width: @{screen-xs-max})';
+@media-sm: ~'(max-width: @{screen-sm-max})';
+@media-md: ~'(max-width: @{screen-md-max})';
+@media-xl: ~'(max-width: @{screen-xl-max})';
+@media-xxl: ~'(max-width: @{screen-xxl-max})';
+
+.pseudo() {
+    content: '';
+    position: absolute;
+    display: block;
+}
+
+.icon(@name, @width, @height) {
+    background-image: url('@{imagePath}@{name}');
+    width: @width;
+    height: @height;
+}
+
+.transit(@property: all, @time: @transitTime, @func: ease) {
+    transition: @property @time @func;
+}
+
+.underline(@color: currentColor, @height: 1px) {
+    .underline {
+        .transit(background-size);
+        background: linear-gradient(@color 0%, @color 100%) ~'0 100% / 100%' @height no-repeat;
+    }
+
+    &:hover {
+        .underline {
+            background-size: 0 @height;
+        }
+    }
+
+}
