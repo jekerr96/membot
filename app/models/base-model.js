@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongodb = require("mongodb");
 
 class BaseModel {
     constructor() {
@@ -17,7 +17,7 @@ class BaseModel {
 
     convertArrayIdToObjectId(arrayId) {
         arrayId = arrayId.map(item => {
-            return new mongoose.Types.ObjectId(item);
+            return mongodb.ObjectId(item);
         });
 
         return arrayId;
