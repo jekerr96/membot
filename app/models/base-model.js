@@ -30,8 +30,8 @@ class BaseModel {
 
         let itemsRow = [];
 
-        items.forEach(audio => {
-            itemsRow.push(this.createNewRow(audio));
+        items.forEach(item => {
+            itemsRow.push(this.createNewRow(item));
         });
 
         return itemsRow;
