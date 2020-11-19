@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+
 class BaseModel {
     constructor() {
         this.collection = {};
@@ -13,8 +15,42 @@ class BaseModel {
         return this.collection.updateOne(filter, params);
     }
 
+    convertArrayIdToObjectId(arrayId) {
+        arrayId = arrayId.map(item => {
+            return new mongoose.Types.ObjectId(item);
+        });
+
+        return arrayId;
+    }
+
+    async getItemsByArrayId(arrayId) {
+        arrayId = this.convertArrayIdToObjectId(arrayId);
+
+        let items = await this.collection.find({"_id": {$in: arrayId}}).toArray();
+
+        let itemsRow = [];
+
+        items.forEach(audio => {
+            itemsRow.push(this.createNewRow(audio));
+        });
+
+        return itemsRow;
+    }
+
     getCollectionName() {
         return undefined;
+    }
+
+    getRowClass() {
+        return undefined;
+    }
+
+    createNewRow(data) {
+        let rowClass = this.getRowClass();
+
+        if (!rowClass) return undefined;
+
+        return new rowClass(data);
     }
 }
 

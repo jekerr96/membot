@@ -11,6 +11,10 @@ class AudioModel extends BaseModel {
     getCollectionName() {
         return "audio";
     }
+
+    getRowClass() {
+        return AudioRow;
+    }
 }
 
 module.exports = AudioModel;

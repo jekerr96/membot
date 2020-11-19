@@ -19,6 +19,7 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "mongodb": "^3.6.3",
+    "mongoose": "^5.10.15",
     "node-vk-bot-api": "^3.3.7"
   }
 }

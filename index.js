@@ -2,6 +2,7 @@ require("dotenv").config();
 const VkBot = require("node-vk-bot-api");
 const User = require("./app/models/user");
 const Mem = require("./app/models/mem");
+const Bundle = require("./app/models/bundle");
 const Audio = require("./app/models/audio");
 const {defaultKeyboard, adminKeyboard} = require("./app/keyboards");
 const Messages = require("./app/messages");
@@ -19,11 +20,18 @@ const Messages = require("./app/messages");
     let userModel = new User();
     let memModel = new Mem();
     let audioModel = new Audio();
+    let bundleModel = new Bundle();
 
     global.vkBot.command(Messages.GIVE_MEM, async (ctx) => {
         await userModel.addUserIfNotExist(ctx.message.peer_id);
         let randomMem = await memModel.getRandomMem();
         ctx.reply("Держи мемчик", randomMem.getCode(), defaultKeyboard);
+    });
+
+    global.vkBot.command(Messages.GIVE_BUNDLE, async (ctx) => {
+        let bundle = await bundleModel.getFirstBundle();
+        let codes = await bundle.getCodesForSend();
+        ctx.reply("Держи набор", codes, defaultKeyboard);
     });
 
     global.vkBot.command(Messages.GIVE_AUDIO, async (ctx) => {
