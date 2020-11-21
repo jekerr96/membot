@@ -23,6 +23,10 @@ class BundleRow extends BaseRow {
         return result.join(",");
     }
 
+    getName() {
+        return this.data.name;
+    }
+
     getAudiosId() {
         return this.data.audios;
     }

@@ -6,7 +6,7 @@ class Index extends BaseModel {
     async addUserIfNotExist(userId) {
         let user = await this.collection.findOne({userId});
 
-        if (user) return new UserRow(user);
+        if (user) return this.createNewRow(user);
 
         let apiRes = await api("users.get", {
             user_ids: userId,
@@ -21,7 +21,29 @@ class Index extends BaseModel {
 
         this.collection.insertOne(user);
 
-        return new UserRow(user);
+        return this.createNewRow(user);
+    }
+
+    async getArrayUsersId() {
+        let users = await this.collection.find().toArray();
+
+        let usersRow = [];
+
+        users.forEach(user => {
+            usersRow.push(this.createNewRow(user));
+        });
+
+        let ids = [];
+
+        usersRow.forEach(userRow => {
+             ids.push(userRow.getVkId());
+        });
+
+        return ids;
+    }
+
+    getRowClass() {
+        return UserRow;
     }
 
     getCollectionName() {

@@ -15,6 +15,24 @@ class BaseModel {
         return this.collection.updateOne(filter, params);
     }
 
+    async getAllElements() {
+        let items = await this.collection.find().toArray();
+        let itemsRow = [];
+
+        items.forEach(item => {
+            itemsRow.push(this.createNewRow(item));
+        });
+
+        return itemsRow;
+    }
+
+    async getElementById(id) {
+        id = this.convertArrayIdToObjectId([id]);
+
+        let element = await this.collection.findOne({_id: {$in: id}});
+        return this.createNewRow(element);
+    }
+
     convertArrayIdToObjectId(arrayId) {
         arrayId = arrayId.map(item => {
             return mongodb.ObjectId(item);
@@ -26,7 +44,7 @@ class BaseModel {
     async getItemsByArrayId(arrayId) {
         arrayId = this.convertArrayIdToObjectId(arrayId);
 
-        let items = await this.collection.find({"_id": {$in: arrayId}}).toArray();
+        let items = await this.collection.find({_id: {$in: arrayId}}).toArray();
 
         let itemsRow = [];
 
