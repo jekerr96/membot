@@ -1,9 +1,10 @@
 @imagePath: "/images/";
 @transitTime: .2s;
 
+@cBlack: #000;
 @darkColor: #1a212e;
 @whiteColor: #fff;
-@light: #e5ded1;
+@cLight: #e5ded1;
 @orange: #ffb74d;
 @green: #0ed60e;
 @red: #ca2424;
@@ -28,6 +29,9 @@
 @media-xl: ~'(max-width: @{screen-xl-max})';
 @media-xxl: ~'(max-width: @{screen-xxl-max})';
 
+@media-hover: ~'(pointer: fine), (-ms-high-contrast: none), (-ms-high-contrast: active)';
+@media-not-hover: ~'(pointer: coarse)';
+
 .pseudo() {
     content: '';
     position: absolute;
@@ -36,6 +40,11 @@
 
 .icon(@name, @width, @height) {
     background-image: url('@{imagePath}@{name}');
+    width: @width;
+    height: @height;
+}
+
+.size(@width, @height: @width) {
     width: @width;
     height: @height;
 }

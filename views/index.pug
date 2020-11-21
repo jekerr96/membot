@@ -1,5 +1,7 @@
 include includes/header
 body(class=`${pageType}-page`)
-    h1= message
-    include mixins/scripts
-    +scripts("main")
+    div(class="container")
+        include forms/send-all
+        include forms/add-mem
+        include mixins/scripts
+        +scripts("main")

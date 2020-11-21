@@ -11,6 +11,15 @@ class BaseModel {
         this.collection = global.dbConnection.collection(collectionName);
     }
 
+    async addItem(data) {
+        return this.addItems([data]);
+    }
+
+    async addItems(arrayData) {
+        let res = await this.collection.insertMany(arrayData);
+        return !!res.result.ok;
+    }
+
     update(filter, params) {
         return this.collection.updateOne(filter, params);
     }

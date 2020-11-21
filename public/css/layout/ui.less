@@ -1,1 +1,65 @@
 @import "../_var";
+
+.scrollbar(@type: styled, @size: 4px, @sizeSm: 2px, @sizeFf: thin, @thumbColor: @red, @trackColor: @whiteColor) {
+    .@{type}-scrollbar {
+        &.scroll-snap {
+            scroll-snap-type: x mandatory;
+
+            > * {
+                scroll-snap-align: start;
+            }
+        }
+
+        // FF
+        //noinspection CssUnknownProperty
+        scrollbar-width: @sizeFf;
+
+        // FF 64+
+        //noinspection CssUnknownProperty
+        scrollbar-color: @thumbColor @trackColor;
+
+        // Chrome
+        &::-webkit-scrollbar {
+            .size(@size);
+            cursor: default;
+
+            @media @media-sm {
+                .size(@sizeSm);
+            }
+        }
+        &::-webkit-scrollbar-button {
+            .size(0);
+        }
+        &::-webkit-scrollbar-thumb {
+            background: @thumbColor;
+            border: none;
+            border-radius: 10px;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background: lighten(@thumbColor, 10%);
+        }
+        &::-webkit-scrollbar-thumb:active {
+            background: darken(@thumbColor, 10%);
+        }
+        &::-webkit-scrollbar-track {
+            background: @trackColor;
+            border: none;
+            border-radius: 2px;
+        }
+        &::-webkit-scrollbar-track-piece {
+            background: @trackColor;
+        }
+        &::-webkit-scrollbar-track:hover {
+            background: lighten(@trackColor, 10%);
+        }
+        &::-webkit-scrollbar-track:active {
+            background: darken(@trackColor, 10%);
+        }
+        &::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+    }
+}
+
+.scrollbar(styled);
+.scrollbar(hidden, 0, 0, none, transparent, transparent);

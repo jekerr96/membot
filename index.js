@@ -1,6 +1,11 @@
 require("dotenv").config();
+const axios = require("axios");
+const FormData = require("form-data");
+const fs = require("fs");
 
 const express = require("express");
+const formData = require("express-form-data");
+const os = require("os");
 const app = express();
 const port = 3000;
 
@@ -10,7 +15,22 @@ app.use(express.urlencoded({extended: true}));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
 
+const options = {
+    uploadDir: os.tmpdir(),
+    autoClean: true
+};
+
+// parse data with connect-multiparty.
+app.use(formData.parse(options));
+// delete from the request all empty files (size == 0)
+app.use(formData.format());
+// change the file objects to fs.ReadStream
+app.use(formData.stream());
+// union the body and the files
+app.use(formData.union());
+
 const VkBot = require("node-vk-bot-api");
+const vkApi = require("node-vk-bot-api/lib/api");
 const User = require("./app/models/user");
 const Mem = require("./app/models/mem");
 const Bundle = require("./app/models/bundle");
@@ -114,6 +134,59 @@ const Messages = require("./app/messages");
 
         res.send({
             success: true,
+        });
+    });
+
+    app.post("/bot/add-mem/", async (req, res) => {
+        if (req.body.memFile.length > 5) {
+            res.send({
+                success: false,
+                errorMessage: "Превышено максимальное количество файловю Максимум 5",
+            });
+
+            return;
+        }
+
+        let memCodes = [];
+
+        try {
+            // url куда грузить картинки
+            let resApi = await vkApi("photos.getMessagesUploadServer", {
+                peer_id: 0,
+                access_token: process.env.vk,
+            });
+
+            const formData = new FormData();
+
+            req.body.memFile.forEach((file, index) => {
+                 formData.append("file" + index, fs.createReadStream(file.path));
+            });
+
+            // грузим картинки
+            let ax = await axios.post(resApi.response.upload_url, formData, {
+                headers: formData.getHeaders(),
+            });
+
+            resApi = await vkApi("photos.saveMessagesPhoto", {
+                ...ax.data,
+                access_token: process.env.vk
+            });
+
+            // формируем коды картинок для отправки в чате
+            resApi.response.forEach(resItem => {
+                memCodes.push({
+                    code: "photo" + resItem.owner_id + "_" + resItem.id,
+                });
+            });
+
+        } catch (e) {
+            console.error(e);
+        }
+
+        let result = await memModel.addItems(memCodes);
+
+        res.send({
+            success: result
         });
     });
 

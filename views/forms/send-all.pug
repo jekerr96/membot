@@ -1,0 +1,12 @@
+form(class="base-form", action="/bot/send-bundle-all/", data-form-type="send-all")
+    div(class="form-name") Отправка набора всем пользователям
+    label
+        select(name="bundleId")
+            each val in bundles
+                option(value=val.getInternalId()) #{val.getName()}
+        span(class="input-name") Выберите набор
+    label
+        textarea(name="bundleText")
+        span(class="input-name") Текст сообщения
+    div(class="submit-wrap")
+        button отправить всем
