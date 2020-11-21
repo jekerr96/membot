@@ -1,3 +1,5 @@
+import {openInfoPopup} from "../helper/helper";
+
 const BaseForm = Control.extend(
     {
         defaults: {
@@ -34,7 +36,11 @@ const BaseForm = Control.extend(
         },
 
         successCallback(data) {
-            console.log(data);
+            if (!data.success) {
+                openInfoPopup("Ошибка", data.errorMessage);
+            } else {
+                openInfoPopup("Успешно!");
+            }
         }
     }
 );

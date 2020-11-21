@@ -2,9 +2,14 @@
 
 .base-form {
     max-width: 600px;
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid @whiteColor;
+    border-radius: 10px;
+    box-sizing: border-box;
 
     .form-name {
-        margin: 30px 0;
+        margin: 0 0 30px;
         font-size: 20px;
     }
 
@@ -29,6 +34,10 @@
 
         &:focus {
             border-color: @red;
+        }
+
+        &[type="file"] {
+            background: transparent;
         }
     }
 

@@ -1,0 +1,23 @@
+@import "../_var";
+
+.popup {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    color: @cBlack;
+
+    .btn {
+        .transit();
+        display: inline-block;
+        padding: 10px 20px;
+        border: 1px solid @cBlack;
+        color: @cBlack;
+
+        @media @media-hover {
+            &:hover {
+                background: @cBlack;
+                color: @whiteColor;
+            }
+        }
+    }
+}

@@ -86,7 +86,7 @@ app.post("/bot/add-mem/", async (req, res) => {
     if (req.body.memFile.length > 5) {
         res.send({
             success: false,
-            errorMessage: "Превышено максимальное количество файловю Максимум 5",
+            errorMessage: "Превышено максимальное количество файлов. Максимум 5",
         });
 
         return;
