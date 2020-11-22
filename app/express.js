@@ -58,7 +58,8 @@ app.post("/bot/send-bundle-all/", async (req, res) => {
 
     if (!bundle) {
         req.send({
-            success: false
+            success: false,
+            errorMessage: "Набор не найден",
         });
 
         return;
@@ -126,6 +127,18 @@ app.post("/bot/add-mem/", async (req, res) => {
 
     } catch (e) {
         console.error(e);
+        let message = e.message;
+
+        if (e.response?.error_msg) {
+            message = e.response.error_msg;
+        }
+
+        res.send({
+            success: false,
+            errorMessage: message,
+        });
+
+        return;
     }
 
     let result = await memModel.addItems(memCodes);
