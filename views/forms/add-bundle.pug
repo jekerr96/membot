@@ -1,0 +1,21 @@
+mixin addBundle(mems, audios)
+    form(class="base-form", action="/bot/add-bundle/", data-form-type="add-bundle")
+        div(class="form-name") Добавить набор
+        label
+            input(type="text", name="name")
+            span(class="input-name") Название набора
+        div(class="checkbox-group")
+            div(class="group-name") Мемы
+            each val in mems
+                label
+                    input(name="mem[]", type="checkbox", value=val.getInternalId())
+                    span(class="input-name")
+                        img(src=val.getUrl())
+        div(class="checkbox-group")
+            div(class="group-name") Аудио
+            each val in audios
+                label
+                    input(name="audios[]", type="checkbox", value=val.getInternalId())
+                    span(class="input-name") #{val.getName()}
+        div(class="submit-wrap")
+            button Добавить

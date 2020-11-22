@@ -51,6 +51,13 @@ app.get("/", async (req, res) => {
     res.render("index", {title: "membot", message: "hello world", pageType: "main", bundles: bundle});
 });
 
+app.get("/bundle/", async (req, res) => {
+    let audios = await audioModel.getAllElements();
+    let mems = await memModel.getAllElements();
+
+    res.render("bundle", {title: "Добавление набора", message: "Добавление набора", pageType: "bundle", audios, mems});
+});
+
 app.post("/bot/send-bundle-all/", async (req, res) => {
     let usersId = await userModel.getArrayUsersId();
     let msg = req.body.bundleText;
@@ -122,6 +129,7 @@ app.post("/bot/add-mem/", async (req, res) => {
         resApi.response.forEach(resItem => {
             memCodes.push({
                 code: "photo" + resItem.owner_id + "_" + resItem.id,
+                url: resItem.sizes[0].url
             });
         });
 
@@ -150,13 +158,49 @@ app.post("/bot/add-mem/", async (req, res) => {
 
 app.post("/bot/add-audio/", async(req, res) => {
     let audioCode = req.body.audio;
+    let name = req.body.name;
 
     let result = await audioModel.addItem({
         code: audioCode,
+        name,
     });
 
     res.send({
         success: result,
+    });
+});
+
+app.post("/bot/add-bundle", async (req, res) => {
+    let mems = req.body.mem || [];
+    let audios = req.body.audios || [];
+    let bundleName = req.body.name;
+
+    if (!bundleName) {
+        res.send({
+            success: false,
+            errorMessage: "Не указано название",
+        });
+
+        return;
+    }
+
+    if (!mems.length && !audios.length) {
+        res.send({
+            success: false,
+            errorMessage: "Укажите хотя бы один мем или аудио",
+        });
+
+        return;
+    }
+
+    let result = await bundleModel.addItem({
+        name: bundleName,
+        mems,
+        audios
+    });
+
+    res.send({
+        success: result
     });
 });
 

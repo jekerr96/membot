@@ -1,0 +1,7 @@
+include includes/header
+include forms/add-bundle
+body(class=`${pageType}-page`)
+    div(class="container")
+        +addBundle(mems, audios)
+        include mixins/scripts
+        +scripts("main")

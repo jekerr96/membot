@@ -68,4 +68,27 @@
             }
         }
     }
+
+    .checkbox-group {
+        &:extend(.styled-scrollbar all);
+        max-height: 300px;
+        margin-bottom: 30px;
+        overflow-y: auto;
+
+        label {
+            flex-direction: row;
+            align-items: center;
+            cursor: pointer;
+
+            input {
+                width: auto;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .group-name {
+        font-size: 20px;
+        margin: 20px 0 10px;
+    }
 }

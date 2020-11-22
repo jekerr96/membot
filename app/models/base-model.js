@@ -25,7 +25,7 @@ class BaseModel {
     }
 
     async getAllElements() {
-        let items = await this.collection.find().toArray();
+        let items = await this.collection.find().sort({_id: -1}).toArray();
         let itemsRow = [];
 
         items.forEach(item => {
