@@ -148,6 +148,18 @@ app.post("/bot/add-mem/", async (req, res) => {
     });
 });
 
+app.post("/bot/add-audio/", async(req, res) => {
+    let audioCode = req.body.audio;
+
+    let result = await audioModel.addItem({
+        code: audioCode,
+    });
+
+    res.send({
+        success: result,
+    });
+});
+
 app.listen(port, () => {
     console.log(`server start on http://localhost:${port}`);
 });

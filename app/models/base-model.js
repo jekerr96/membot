@@ -12,7 +12,7 @@ class BaseModel {
     }
 
     async addItem(data) {
-        return this.addItems([data]);
+        return await this.addItems([data]);
     }
 
     async addItems(arrayData) {
